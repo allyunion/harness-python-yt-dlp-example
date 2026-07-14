@@ -41,7 +41,7 @@ pipeline:
                     connectorRef: dockerhub_anonymous_connector
                     image: python:3.12-slim
                     shell: Sh
-                    command: python3 -m devscripts.run_tests --pytest-args '--junit-xml=report.xml' core
+                    command: python3 -m devscripts.run_tests --pytest-args='--junit-xml=report.xml' core
                     reports:
                       type: JUnit
                       spec:
