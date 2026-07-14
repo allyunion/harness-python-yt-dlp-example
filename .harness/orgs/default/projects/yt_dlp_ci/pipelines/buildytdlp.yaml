@@ -1,0 +1,71 @@
+pipeline:
+  name: Build yt-dlp
+  identifier: build_yt_dlp
+  projectIdentifier: yt_dlp_ci
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Build and Test
+        identifier: build_and_test
+        description: Installs yt-dlp's test extras, runs its own offline (non-download) test suite, and builds sdist/wheel packages.
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: k8s_docker_desktop_connector
+              namespace: harness-ci
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  identifier: dependencies
+                  name: Install Dependencies
+                  spec:
+                    connectorRef: dockerhub_anonymous_connector
+                    image: python:3.12-slim
+                    shell: Sh
+                    command: |-
+                      python -m pip install --upgrade pip
+                      pip install -e ".[test]"
+              - step:
+                  type: Run
+                  identifier: test
+                  name: Run Tests
+                  spec:
+                    connectorRef: dockerhub_anonymous_connector
+                    image: python:3.12-slim
+                    shell: Sh
+                    command: python3 -m devscripts.run_tests --pytest-args '--junit-xml=report.xml' core
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - report.xml
+              - step:
+                  type: Run
+                  identifier: build_package
+                  name: Build Package
+                  spec:
+                    connectorRef: dockerhub_anonymous_connector
+                    image: python:3.12-slim
+                    shell: Sh
+                    command: |-
+                      python -m pip install --upgrade build
+                      python -m build
+                      ls -la dist/
+        tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github_ytdlp_connector
+        repoName: yt-dlp
+        build:
+          type: branch
+          spec:
+            branch: master
