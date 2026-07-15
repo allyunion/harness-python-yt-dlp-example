@@ -1,0 +1,27 @@
+connector:
+  name: github_harness_repo_connector
+  identifier: github_harness_repo_connector
+  description: GitHub connector for the harness-python-yt-dlp-example repo itself. Used by Harness Git Experience to commit and read pipeline YAML.
+  accountIdentifier: cy_yk9SDTgeqkV7cNe6Jbw
+  orgIdentifier: default
+  projectIdentifier: yt_dlp_ci
+  type: Github
+  spec:
+    url: https://github.com/allyunion/harness-python-yt-dlp-example
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: allyunion
+          tokenRef: github_pat
+    apiAccess:
+      type: Token
+      spec:
+        tokenRef: github_pat
+    delegateSelectors:
+      - yt-dlp-kubernetes-delegate
+    executeOnDelegate: true
+    proxy: false
+    ignoreTestConnection: false
+    type: Repo

@@ -1,0 +1,14 @@
+connector:
+  name: k8s_docker_desktop_connector
+  identifier: k8s_docker_desktop_connector
+  description: Kubernetes connector for the local Docker Desktop cluster.
+  accountIdentifier: cy_yk9SDTgeqkV7cNe6Jbw
+  orgIdentifier: default
+  projectIdentifier: yt_dlp_ci
+  type: K8sCluster
+  spec:
+    credential:
+      type: InheritFromDelegate
+    delegateSelectors:
+      - yt-dlp-kubernetes-delegate
+    ignoreTestConnection: false

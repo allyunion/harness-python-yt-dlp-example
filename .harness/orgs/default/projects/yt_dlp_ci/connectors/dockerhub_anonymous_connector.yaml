@@ -1,0 +1,17 @@
+
+connector:
+  name: dockerhub_anonymous_connector
+  identifier: dockerhub_anonymous_connector
+  description: Anonymous Docker Hub connector. Self-managed Kubernetes build infrastructure requires a connectorRef on every step image, even for public images, so this exists purely to satisfy that requirement. No credentials involved.
+  accountIdentifier: cy_yk9SDTgeqkV7cNe6Jbw
+  orgIdentifier: default
+  projectIdentifier: yt_dlp_ci
+  type: DockerRegistry
+  spec:
+    dockerRegistryUrl: https://index.docker.io/v2/
+    providerType: DockerHub
+    auth:
+      type: Anonymous
+    executeOnDelegate: true
+    proxy: false
+    ignoreTestConnection: false

@@ -1,0 +1,25 @@
+connector:
+  name: github_ytdlp_connector
+  identifier: github_ytdlp_connector
+  description: ""
+  accountIdentifier: cy_yk9SDTgeqkV7cNe6Jbw
+  orgIdentifier: default
+  projectIdentifier: yt_dlp_ci
+  type: Github
+  spec:
+    url: https://github.com/allyunion/yt-dlp
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: allyunion
+          tokenRef: github_pat
+    apiAccess:
+      type: Token
+      spec:
+        tokenRef: github_pat
+    executeOnDelegate: false
+    proxy: false
+    ignoreTestConnection: false
+    type: Repo
